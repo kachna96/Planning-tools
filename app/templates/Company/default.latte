@@ -1,0 +1,239 @@
+{block title}
+    Společnost
+{/block}
+{block content}
+    <div class="container">
+        <h3 id="addUser">Přidat uživatele do společnosti</h3>
+        {form addUserForm}
+            <div class="row">
+                <div class="six columns">
+                    <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                    {label username /}{input username}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label password /}{input password}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label passwordVerify /}{input passwordVerify}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {input send}
+                </div>
+            </div>
+        {/form}
+        <h3 id="renameCom">Přejmenovat společnost</h3>
+        {form renameCompanyForm}
+            <div class="row">
+                <div class="six columns">
+                    <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                    {label com_name /}{input com_name}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label send /}{input send}
+                </div>
+            </div>
+        {/form}
+
+        {if $user_role >= '1'}
+            <h3 id="addAdmin">Přidat správce</h3>
+            {form addAdminForm}
+                <div class="row">
+                    <div class="three columns">
+                        {input users}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {label send /}{input send}
+                    </div>
+                </div>
+            {/form}
+
+            <h3 id="changePassw">Změnit heslo uživateli</h3>
+            {form changeUserPasswordForm}
+                <div class="row">
+                    <div class="three columns">
+                        {input users}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {input new_passw}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {input passwordVerify}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {label send /}{input send}
+                    </div>
+                </div>
+            {/form}
+
+            <h3 id="changeWorkHours">Změnit pracovní dobu všem uživatelům</h3>
+            {form changeUsersWorkHoursForm}
+                <div class="row">
+                    <div class="six columns">
+                        <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="three columns">
+                        {label start /}
+                        {input start}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="three columns">
+                        {label end /}
+                        {input end}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {input submit}
+                    </div>
+                </div>
+            {/form}
+
+            <h3>Přidat závodní dovolenou</h3>
+            {form addCompanyVacationForm}
+                <div class="row">
+                    <div class="six columns">
+                        {label choice class => 'radio-item'}{input choice}{/label}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {label date_from /}{input date_from}
+                    </div>
+                </div>
+                <div class="row" id="date_to">
+                    <div class="six columns">
+                        {label date_to /}{input date_to}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {label description /}{input description cols => 40}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {input send}
+                    </div>
+                </div>
+            {/form}
+
+            {if count($vacation)}
+                <h3 id="editVacation">Upravit závodní dovolenou</h3>
+                <div class="eleven columns">
+                    <section id="vacation_list_header">
+                        {foreach $vacation as $row}
+                            {if $iterator->isFirst()}
+                                <table cellspacing="0" class="u-full-width">
+                                    <thead>
+                                        <tr class="vacation_header">
+                                            <th>#</th>
+                                            <th id="vacation_from">Od</th>
+                                            <th id="vacation_to">Do</th>
+                                            <th id="vacation_description">Popis</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            {/if}
+                            {if $iterator->isOdd()}
+                                <tr class="vacation_odd">
+                                    <td>{$iterator->counter}</td>
+                                    <td>{$row->datum|date:'j. n. Y'}</td>
+                                    <td>{$row->do|date:'j. n. Y'}</td>
+                                    <td>{$row->popis|truncate:50}</td>
+                                    <td><a n:href="Company:edit, $row->idvolno"><input type="submit" value="Upravit" class="edit_vacation_buttons"></a></td>
+                                    <td><a n:href="Company:delete, $row->idvolno"><input type="submit" value="Smazat" class="edit_vacation_buttons"></a></td>
+                                </tr>
+                            {else}
+                                <tr class="vacation_even">
+                                    <td>{$iterator->counter}</td>
+                                    <td>{$row->datum|date:'j. n. Y'}</td>
+                                    <td>{$row->do|date:'j. n. Y'}</td>
+                                    <td>{$row->popis|truncate:50}</td>
+                                    <td><a n:href="Company:edit, $row->idvolno"><input type="submit" value="Upravit" class="edit_vacation_buttons"></a></td>
+                                    <td><a n:href="Company:delete, $row->idvolno"><input type="submit" value="Smazat" class="edit_vacation_buttons"></a></td>
+                                </tr>
+                            {/if}
+                            {if $iterator->isLast()}
+                                    </tbody>
+                                </table>
+                            {/if}
+                        {/foreach}
+                    </section>
+                </div>
+            {/if}
+
+            <h3 id="giveAdminFunction">Předat funkci správce jinému uživateli</h3>
+            {form roleForm}
+                <div class="row">
+                    <div class="three columns">
+                        {input users}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {input send}
+                    </div>
+                </div>
+            {/form}
+
+            <h3 id="deleteUser">Smazat uživatele</h3>
+            {form deleteUserAccountForm}
+                <div class="row">
+                    <div class="three columns">
+                        {input users}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="six columns">
+                        {input send}
+                    </div>
+                </div>
+            {/form}
+
+        {/if}
+        {if $admin_role > '1'}
+            <h3 id="giveUp">Vzdát se funkce správce</h3>
+            {form giveUpForm}
+                <div class="row">
+                    <div class="six columns">
+                        <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                        {input send}
+                    </div>
+                </div>
+            {/form}
+        {/if}
+
+        <h3 id="deleteAdmin">Smazat účet</h3>
+        {form deleteAccountForm}
+            <div class="row">
+                <div class="six columns">
+                    <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                    {input delete}
+                </div>
+            </div>
+        {/form}
+    </div>
+{/block}
+
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/js/company_scripts.js"></script>
+{/block}

@@ -1,0 +1,39 @@
+{block title}
+    Upravit závodní dovolenou
+{/block}
+{block content}
+    <div class="container">
+        <h3>Upravit závodní dovolenou</h3>
+        {form addCompanyVacationForm}
+            <div class="row">
+                <div class="six columns">
+                    {label choice class => 'radio-item'}{input choice}{/label}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label date_from /}{input date_from}
+                </div>
+            </div>
+            <div class="row" id="date_to">
+                <div class="six columns">
+                    {label date_to /}{input date_to}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label description /}{input description}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label send /}{input send}
+                </div>
+            </div>
+        {/form}
+    </div>
+{/block}
+
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/js/setting_scripts.js"></script>
+{/block}

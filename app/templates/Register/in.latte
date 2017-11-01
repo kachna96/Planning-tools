@@ -1,0 +1,37 @@
+{block content}
+    <div class="container">
+        <section class="six columns login-card">
+            <h1><img src="{$basePath}/css/images/front.png" style="width: 30%"></h1>
+            <div class="center">
+                <h3 n:block=title class="section-heading">Registrace</h3>
+                {form registerForm}
+                    <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                    <div class="row">
+                        {label username /}{input username}
+                    </div>
+                    <div class="row">
+                        {label password /}{input password}
+                    </div>
+                    <div class="row">
+                        {label passwordVerify /}{input passwordVerify}
+                    </div>
+                    <div class="row">
+                        {label make_company /}{input make_company}
+                    </div>
+                    <div class="row">
+                        {input send}
+                    </div>
+                {/form}
+            </div>
+
+            <section class="login-help">
+                <a n:href="Sign:in">Přihlásit se</a>
+            </section>
+        </section>
+    </div>
+
+{/block}
+
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/js/register_scripts.js"></script>
+{/block}

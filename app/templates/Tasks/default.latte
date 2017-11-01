@@ -1,0 +1,69 @@
+{block content}
+    <div class="container">
+        {foreach $publicHolidays as $pH}
+            <input type="hidden" class="hidden" value="{$pH->datum}">
+        {/foreach}
+        <h3 n:block=title>{if count($id_task)}Uprav úkol{else}Přidej úkol{/if}</h3>
+        {form addTaskForm}
+            <div class="row">
+                <div class="six columns">
+                    <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                    {input name}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {input task}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {formContainer checks}
+                        {input weekends}<br>
+                        {input saturday}<br>
+                        {input sunday}
+                    {/formContainer}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label duration /}{input duration}
+                </div>
+            </div>
+            <div class="row">
+                <div class="two-thirds columns">
+                    {label start /}
+                </div>
+                <div class="six columns">
+                    {input start}
+                </div>
+            </div>
+            <div class="row">
+                <div class="two-thirds columns">
+                    {label end /}
+                </div>
+                <div class="six columns">
+                    {input end}
+                </div>
+            </div>
+            <div class="row">
+                {if count($id_task)}
+                    <div class="three columns">
+                        {input delete}
+                    </div>
+                    <div class="three columns">
+                        {input send}
+                    </div>
+                {else}
+                    <div class="six columns">
+                        {input send}
+                    </div>
+                {/if}
+            </div>
+        {/form}
+    </div>
+{/block}
+
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/js/task_scripts.js"></script>
+{/block}

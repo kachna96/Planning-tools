@@ -1,0 +1,15 @@
+parameters:
+    # parametry pro připojení k databázi
+    database:
+        driver: mysql
+        host: 127.0.0.1
+        username: root
+        password:
+        dbname: mydb
+
+nette:
+    database:
+        dsn: "%database.driver%:host=%database.host%;dbname=%database.dbname%"
+        user: %database.username%
+        password: %database.password%
+

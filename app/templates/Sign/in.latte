@@ -1,0 +1,33 @@
+{block content}
+    <div class="container">
+        <section class="six columns login-card">
+            <h1><img src="{$basePath}/css/images/front.png" style="width: 30%"></h1>
+            <h3 n:block=title>Přihlásit se</h3>
+
+            <section class="sign_center">
+                {form signInForm}
+                    <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+                    <div class="row">
+                        {label username /}{input username}
+                    </div>
+                    <div class="row">
+                        {label password /}{input password}
+                    </div>
+                    <div class="row u-pull-left">
+                        {input remember}{label remember /}<br>
+                    </div>
+                    <div class="row">
+                        {input send}
+                    </div>
+                {/form}
+            </section>
+            <section class="login-help">
+                <a n:href="Register:in">Registrace</a>
+            </section>
+        </section>
+    </div>
+{/block}
+
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/js/sign_scripts.js"></script>
+{/block}

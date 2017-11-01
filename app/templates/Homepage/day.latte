@@ -1,0 +1,100 @@
+{block title}
+    Výpis úkolů - denní
+{/block}
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/js/list_scripts.js"></script>
+{/block}
+{block content}
+    {define arrayCheck}
+    {if $j > 7}
+        {? $i++}
+        {? $j = 1}
+        </tr>
+        {breakIf $i > count($calendar)}
+        <tr>
+    {/if}
+    {/define}
+    <div class="container">
+        <div class="row">
+            <div class="six columns">
+                <div id='cssmenu'>
+                    <ul>
+                        <li class='active has-sub'>
+                            <a href='#'>Zobrazení:
+                                {ifCurrent Homepage:default}Týdenní{/ifCurrent}
+                                {ifCurrent Homepage:day}Denní{/ifCurrent}
+                                {ifCurrent Homepage:list}Seznam{/ifCurrent}
+                            </a>
+                            <ul>
+                                <li><a n:href="day">Denní</a></li>
+                                <li><a n:href="default">Týdenní</a></li>
+                                <li><a n:href="list">Seznam</a></li>
+                            </ul>
+                        </li>
+                        <li class='has-sub'>
+                            <a href='#'>Kalendář:</a>
+                            <ul>
+                                <li>
+                                    <table class="calendar">
+                                        {for $i = 1; $i < 7; $i++}
+                                            <tr>
+                                                {for $j = 1; $j <= 7; $j++}
+                                                    {if $i == 1}
+                                                        <th>{$calendar[0][$i][$j]}</th>
+                                                    {else}
+                                                        {if $calendar[0][$i][$j] == "&nbsp;"}
+                                                            <td class="free">&nbsp;</td>
+                                                        {else}
+                                                            {if $calendar[1][$i][$j] == 'red'}
+                                                                <td class="red">{$calendar[0][$i][$j]}</td>
+                                                            {elseif  $calendar[1][$i][$j] == 'blue'}
+                                                                <td class="blue">{$calendar[0][$i][$j]}</td>
+                                                            {else}
+                                                                <td>{$calendar[0][$i][$j]}</td>
+                                                            {/if}
+                                                        {/if}
+                                                    {/if}
+                                                {/for}
+                                            </tr>
+                                        {/for}
+                                    </table>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Paste it here -->
+            <!-- asdf -->
+            <div class="seven columns">
+                {if $vacation_day == '1'}
+                    <h3>Dnes máte volno.</h3>
+                {else}
+                    {if count($dayTasks)}
+                        {? $date->setTime(23,00,00)|date:"h:i"}
+                        <table class="listOfTasks">
+                            <thead>
+                                <tr>
+                                    <th>Čas</th>
+                                    <th>{$czechDates[0]}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {for $i = 0; $i <= 23; $i++}
+                                    <tr>
+                                        <td>{$date->modify('+1 hour')|date:"H:i"}</td>
+                                        <td><a n:href="Tasks:default, $dayTasks[0][$i]">{$dayTasks[1][$i]|truncate:10}</a></td>
+                                    </tr>
+                                {/for}
+                            </tbody>
+                        </table>
+                    {else}
+                        <h2>Zatím nemáte žádné úkoly.</h2>
+                    {/if}
+                {/if}
+            </div>
+        </div>
+    </div>
+{/block}

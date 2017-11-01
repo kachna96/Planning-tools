@@ -1,0 +1,18 @@
+{block title}
+    Smazat dovolenou
+{/block}
+{block content}
+    <div class="container">
+        <h3>Smazat dovolenou</h3>
+        {if $vacation}
+            {if $vacation->do != NULL}
+                <p>Jste si jistí, že chcete smazat dovolenou od {$vacation->datum|date:'j. n. Y'} do {$vacation->do|date:'j. n. Y'}?</p>
+            {else}
+                <p>Jste si jistí, že chcete smazat dovolenou z {$vacation->datum|date:'j. n. Y'}?</p>
+            {/if}
+            {control deleteVacationForm}
+        {else}
+            <p>Záznam nenalezen.</p>
+        {/if}
+    </div>
+{/block}

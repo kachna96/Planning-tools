@@ -1,0 +1,184 @@
+{block title}
+    Nastavení
+{/block}
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/js/setting_scripts.js"></script>
+{/block}
+{block content}
+    <div class="container">
+        <h3 id="changePassw">Změnit heslo</h3>
+        {form changePasswordForm}
+            <div class="row">
+                <div class="six columns">
+                    {label old_passw /}{input old_passw}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label new_passw /}{input new_passw}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label passwordVerify /}{input passwordVerify}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label send /}{input send}
+                </div>
+            </div>
+        {/form}
+
+        <h3 id="addVacation">Přidat dovolenou</h3>
+        {form vacationForm}
+            <div class="row">
+                <div class="six columns">
+                    {label choice class => 'radio-item'}{input choice}{/label}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label date_from /}{input date_from}
+                </div>
+            </div>
+            <div class="row" id="date_to">
+                <div class="six columns">
+                    {label date_to /}{input date_to}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label description /}{input description}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {label send /}{input send}
+                </div>
+            </div>
+        {/form}
+
+        {if count($vacation)}
+            <h3 id="editVacation">Upravit dovolenou</h3>
+            <div class="eleven columns">
+                <section id="vacation_list_header">
+
+                    {foreach $vacation as $post}
+                        {if $iterator->isFirst()}
+                            <table cellspacing="0" class="u-full-width">
+                                <thead>
+                                    <tr class="vacation_header">
+                                        <th>#</th>
+                                        <th id="vacation_from">Od</th>
+                                        <th id="vacation_to">Do</th>
+                                        <th id="vacation_description">Popis</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        {/if}
+                        {if $iterator->isOdd()}
+                            <tr class="vacation_odd">
+                                <td>{$iterator->counter}</td>
+                                <td>{$post->datum|date:'j. n. Y'}</td>
+                                <td>{$post->do|date:'j. n. Y'}</td>
+                                <td>{$post->popis|truncate:50}</td>
+                                <td><a n:href="Settings:edit, $post->idvolno"><input type="submit" value="Upravit" class="edit_vacation_buttons"></a></td>
+                                <td><a n:href="Settings:delete, $post->idvolno"><input type="submit" value="Smazat" class="edit_vacation_buttons"></a></td>
+                            </tr>
+                        {else}
+                            <tr class="vacation_even">
+                                <td>{$iterator->counter}</td>
+                                <td>{$post->datum|date:'j. n. Y'}</td>
+                                <td>{$post->do|date:'j. n. Y'}</td>
+                                <td>{$post->popis|truncate:50}</td>
+                                <td><a n:href="Settings:edit, $post->idvolno"><input type="submit" value="Upravit" class="edit_vacation_buttons"></a></td>
+                                <td><a n:href="Settings:delete, $post->idvolno"><input type="submit" value="Smazat" class="edit_vacation_buttons"></a></td>
+                            </tr>
+                        {/if}
+                        {if $iterator->isLast()}
+                                </tbody>
+                            </table>
+                        {/if}
+                    {/foreach}
+                </section>
+            </div>
+        {/if}
+
+        <h3 id="changeWorkHours">Změnit pracovní hodiny</h3>
+        {form changeWorkHoursForm}
+            <p class="p_error" n:foreach="$form->errors as $error">{$error}</p>
+            <div class="row">
+                <div class="three columns">
+                    {label start /}{input start}
+                </div>
+            </div>
+            <div class="row">
+                <div class="three columns">
+                    {label end /}{input end}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {input submit}
+                </div>
+            </div>
+        {/form}
+
+        <h3 id="weekendWork">Práce o víkendech</h3>
+        <div class="row">
+            <div class="six columns">
+                <p class="weekend_warning">Upozornění: Po odeslání původní nastavení zmizí.</p>
+            </div>
+        </div>
+        {form weekendWork}
+            <div class="row">
+                <div class="six columns">
+                    {input saturday}{label saturday /}<br>
+                    {input sunday}{label sunday /}<br>
+                    {input tasks_at_weekend}{label tasks_at_weekend /}
+                </div>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    {input submit}
+                </div>
+            </div>
+        {/form}
+
+        <h3 id="publicHolidays">Státní svátky</h3>
+        {form addPublicHolidayForm}
+            <div class="row">
+                <div class="six columns">
+                    {label set class => 'radio-item'}{input set}{/label}
+                </div>
+            </div>
+                {for $i = 1; $i <= 12; $i++}
+                    <div class="row">
+                        <div class="three columns">
+                            {input $i}
+                        </div>
+                        <div class="eight columns">
+                            {label $i /}
+                        </div>
+                    </div>
+                {/for}
+            <div class="row">
+                <div class="six columns">
+                    {input send}
+                </div>
+            </div>
+        {/form}
+
+        {if $user_role == 'user'}
+            <h3 id="deleteAccount">Smazat účet</h3>
+            {form deleteUserAccountForm}
+                <div class="row">
+                    <div class="six columns">
+                        {input send}
+                    </div>
+                </div>
+            {/form}
+        {/if}
+    </div>
+{/block}

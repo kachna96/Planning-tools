@@ -1,0 +1,85 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{ifset #title}{include title|striptags} | {/ifset}Plánovač úkolů</title>
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
+    <link rel="stylesheet" type="text/css" href="{$basePath}/css/menu_normalize.css">
+    <link rel="stylesheet" type="text/css" href="{$basePath}/css/menu_style.css">
+	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">
+	<link rel="shortcut icon" href="{$basePath}/css/images/favicon.ico">
+    <script type="text/javascript" src="{$basePath}/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/jquery-ui-timepicker-addon.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$basePath}/css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="{$basePath}/css/jquery-ui-1.9.2.custom.min.css">
+    <link rel="stylesheet" type="text/css" href="{$basePath}/css/jquery-ui-timepicker-addon.css">
+    <link rel="stylesheet" type="text/css" href="{$basePath}/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="{$basePath}/css/skeleton.css">
+    <script>
+        $(function() {
+            var pull = $('#pull');
+            menu = $('nav ul');
+            menuHeight = menu.height();
+
+            $(pull).on('click', function(e) {
+                e.preventDefault();
+                menu.slideToggle();
+            });
+
+            $(window).resize(function(){
+                var w = $(window).width();
+                if(w > 320 && menu.is(':hidden')) {
+                    menu.removeAttr('style');
+                }
+            });
+        });
+    </script>
+    {block css}
+    {/block}
+
+    {block scripts}
+    {/block}
+
+</head>
+
+<body>
+	<script> document.documentElement.className+=' js' </script>
+
+    {if $user -> loggedIn}
+        {var $user_data = $user->getIdentity()->getData()}
+        <nav class="clearfix">
+            <ul class="clearfix">
+                <li><a n:href="Homepage:default" {ifCurrent Homepage:*}class="current"{/ifCurrent}>Domů</a></li>
+                <li><a n:href="Tasks:default" {ifCurrent Tasks:*}class="current"{/ifCurrent}>Úkoly</a></li>
+                <li><a n:href="Settings:set" {ifCurrent Settings:*}class="current"{/ifCurrent}>Nastavení</a></li>
+                {if $user->isInRole('admin')}
+                    <li><a n:href="Company:default" {ifCurrent Company:*}class="current"{/ifCurrent}>Společnost</a></li>
+                {/if}
+                <li><a n:href="Sign:out">Odhlásit</a></li>
+                <li><a href="#" class="tooltip"><img class="img_center" src="{$basePath}/css/images/user_32.png">
+                        <span>Přihlášen jako: {$user_data['jmeno']|truncate:25}<br>Společnost: {$template_com_name['jmeno_spolecnosti']|truncate:25}</span></a></li>
+            </ul>
+            <a href="#" id="pull">Menu</a>
+        </nav>
+    {/if}
+    <div class="container">
+	    <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+    </div>
+
+	{include content}
+
+    <script src="{$basePath}/js/live-form-validation.js"></script>
+    <script src="{$basePath}/js/main.js"></script>
+    <!--<script src="{$basePath}/js/netteForms.js"></script>-->
+
+</body>
+</html>
